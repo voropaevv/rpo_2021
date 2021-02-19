@@ -36,15 +36,41 @@ find_library( # Sets the name of the path variable.
         # you want CMake to locate.
         log )
 
-# add spdlog
+# add spdlog and mbedtls
 add_definitions(-DSPDLOG_COMPILED_LIB)
 add_library(spdlog STATIC IMPORTED)
-set_target_properties(
-        spdlog PROPERTIES IMPORTED_LOCATION /Users/vlad_voropaev/Yandex.Disk.localized/bmstu/sem_6/software_development/projects/libs/spdlog/build/x86_64/libspdlog.a
-)
+add_library(mbedcrypto SHARED IMPORTED)
+
 target_include_directories(
         native-lib PUBLIC
         /Users/vlad_voropaev/Yandex.Disk.localized/bmstu/sem_6/software_development/projects/libs/spdlog/spdlog/include
+        /Users/vlad_voropaev/Yandex.Disk.localized/bmstu/sem_6/software_development/projects/libs/mbedtls/mbedtls/include
+)
+
+set_target_properties(
+        spdlog PROPERTIES IMPORTED_LOCATION /Users/vlad_voropaev/Yandex.Disk.localized/bmstu/sem_6/software_development/projects/libs/spdlog/build/${ANDROID_ABI}/libspdlog.a
+)
+
+set_target_properties(
+#        mbedcrypto PROPERTIES IMPORTED_LOCATION /Users/vlad_voropaev/Yandex.Disk.localized/bmstu/sem_6/software_development/projects/fclient/app/src/main/cmakeLibs/${ANDROID_ABI}/libmbedcrypto.so
+        mbedcrypto PROPERTIES IMPORTED_LOCATION /Users/vlad_voropaev/Yandex.Disk.localized/bmstu/sem_6/software_development/projects/libs/mbedtls/build/${ANDROID_ABI}/library/libmbedcrypto.so
+)
+
+configure_file(
+        /Users/vlad_voropaev/Yandex.Disk.localized/bmstu/sem_6/software_development/projects/libs/mbedtls/build/${ANDROID_ABI}/library/libmbedcrypto.so
+        /Users/vlad_voropaev/Yandex.Disk.localized/bmstu/sem_6/software_development/projects/fclient/app/src/main/cmakeLibs/${ANDROID_ABI}/libmbedcrypto.so
+        COPYONLY
+)
+
+configure_file(
+        /Users/vlad_voropaev/Yandex.Disk.localized/bmstu/sem_6/software_development/projects/libs/mbedtls/build/x86/library/libmbedcrypto.so
+        /Users/vlad_voropaev/Yandex.Disk.localized/bmstu/sem_6/software_development/projects/fclient/app/src/main/cmakeLibs/x86/libmbedcrypto.so
+        COPYONLY
+)
+configure_file(
+        /Users/vlad_voropaev/Yandex.Disk.localized/bmstu/sem_6/software_development/projects/libs/mbedtls/build/x86_64/library/libmbedcrypto.so
+        /Users/vlad_voropaev/Yandex.Disk.localized/bmstu/sem_6/software_development/projects/fclient/app/src/main/cmakeLibs/x86_64/libmbedcrypto.so
+        COPYONLY
 )
 
 # Specifies libraries CMake should link to your target library. You
@@ -54,6 +80,7 @@ target_include_directories(
 target_link_libraries( # Specifies the target library.
         native-lib
         spdlog
+        mbedcrypto
         # Links the target library to the log library
         # included in the NDK.
         ${log-lib} )

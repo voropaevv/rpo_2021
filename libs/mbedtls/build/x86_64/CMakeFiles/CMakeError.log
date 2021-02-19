@@ -1,0 +1,75 @@
+Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
+Change Dir: /Users/vlad_voropaev/Yandex.Disk.localized/bmstu/sem_6/software_development/projects/libs/mbedtls/build/x86_64/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_b3dea/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_b3dea.dir/build.make CMakeFiles/cmTC_b3dea.dir/build
+Building C object CMakeFiles/cmTC_b3dea.dir/src.c.o
+/Users/vlad_voropaev/Library/Android/sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=armv7-none-linux-androideabi16 --gcc-toolchain=/Users/vlad_voropaev/Library/Android/sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/darwin-x86_64 --sysroot=/Users/vlad_voropaev/Library/Android/sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/darwin-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -Wall -Wextra -Wwrite-strings -Wpointer-arith -Wimplicit-fallthrough -Wshadow -Wvla -Werror -DCMAKE_HAVE_LIBC_PTHREAD -fPIE -o CMakeFiles/cmTC_b3dea.dir/src.c.o -c /Users/vlad_voropaev/Yandex.Disk.localized/bmstu/sem_6/software_development/projects/libs/mbedtls/build/x86_64/CMakeFiles/CMakeTmp/src.c
+/Users/vlad_voropaev/Yandex.Disk.localized/bmstu/sem_6/software_development/projects/libs/mbedtls/build/x86_64/CMakeFiles/CMakeTmp/src.c:13:3: error: implicit declaration of function 'pthread_cancel' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+  pthread_cancel(thread);
+  ^
+/Users/vlad_voropaev/Yandex.Disk.localized/bmstu/sem_6/software_development/projects/libs/mbedtls/build/x86_64/CMakeFiles/CMakeTmp/src.c:13:3: note: did you mean 'pthread_once'?
+/Users/vlad_voropaev/Library/Android/sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/pthread.h:275:5: note: 'pthread_once' declared here
+int pthread_once(pthread_once_t* __once, void (*__init_routine)(void));
+    ^
+1 error generated.
+make[1]: *** [CMakeFiles/cmTC_b3dea.dir/src.c.o] Error 1
+make: *** [cmTC_b3dea/fast] Error 2
+
+
+Source file was:
+#include <pthread.h>
+
+void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_cancel(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /Users/vlad_voropaev/Yandex.Disk.localized/bmstu/sem_6/software_development/projects/libs/mbedtls/build/x86_64/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_ac8f9/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_ac8f9.dir/build.make CMakeFiles/cmTC_ac8f9.dir/build
+Building C object CMakeFiles/cmTC_ac8f9.dir/CheckFunctionExists.c.o
+/Users/vlad_voropaev/Library/Android/sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=armv7-none-linux-androideabi16 --gcc-toolchain=/Users/vlad_voropaev/Library/Android/sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/darwin-x86_64 --sysroot=/Users/vlad_voropaev/Library/Android/sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/darwin-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -Wall -Wextra -Wwrite-strings -Wpointer-arith -Wimplicit-fallthrough -Wshadow -Wvla -Werror -DCHECK_FUNCTION_EXISTS=pthread_create -fPIE -o CMakeFiles/cmTC_ac8f9.dir/CheckFunctionExists.c.o -c /Users/vlad_voropaev/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CheckFunctionExists.c
+/Users/vlad_voropaev/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CheckFunctionExists.c:7:3: error: declaration of built-in function 'pthread_create' requires inclusion of the header <pthread.h> [-Werror,-Wbuiltin-requires-header]
+  CHECK_FUNCTION_EXISTS(void);
+  ^
+<command line>:3:31: note: expanded from here
+#define CHECK_FUNCTION_EXISTS pthread_create
+                              ^
+1 error generated.
+make[1]: *** [CMakeFiles/cmTC_ac8f9.dir/CheckFunctionExists.c.o] Error 1
+make: *** [cmTC_ac8f9/fast] Error 2
+
+
+
+Determining if the function pthread_create exists in the pthread failed with the following output:
+Change Dir: /Users/vlad_voropaev/Yandex.Disk.localized/bmstu/sem_6/software_development/projects/libs/mbedtls/build/x86_64/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_64bef/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_64bef.dir/build.make CMakeFiles/cmTC_64bef.dir/build
+Building C object CMakeFiles/cmTC_64bef.dir/CheckFunctionExists.c.o
+/Users/vlad_voropaev/Library/Android/sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=armv7-none-linux-androideabi16 --gcc-toolchain=/Users/vlad_voropaev/Library/Android/sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/darwin-x86_64 --sysroot=/Users/vlad_voropaev/Library/Android/sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/darwin-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -Wall -Wextra -Wwrite-strings -Wpointer-arith -Wimplicit-fallthrough -Wshadow -Wvla -Werror -DCHECK_FUNCTION_EXISTS=pthread_create -fPIE -o CMakeFiles/cmTC_64bef.dir/CheckFunctionExists.c.o -c /Users/vlad_voropaev/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CheckFunctionExists.c
+/Users/vlad_voropaev/Library/Android/sdk/cmake/3.18.1/share/cmake-3.18/Modules/CheckFunctionExists.c:7:3: error: declaration of built-in function 'pthread_create' requires inclusion of the header <pthread.h> [-Werror,-Wbuiltin-requires-header]
+  CHECK_FUNCTION_EXISTS(void);
+  ^
+<command line>:3:31: note: expanded from here
+#define CHECK_FUNCTION_EXISTS pthread_create
+                              ^
+1 error generated.
+make[1]: *** [CMakeFiles/cmTC_64bef.dir/CheckFunctionExists.c.o] Error 1
+make: *** [cmTC_64bef/fast] Error 2
+
+
+
