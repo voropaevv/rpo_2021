@@ -2,8 +2,17 @@ package ru.iu3.fclient;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Hex;
 
 import java.nio.charset.StandardCharsets;
 
@@ -21,16 +30,67 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        byte[] key = randomBytes(16);
-        byte[] data = "Text__Encryption".getBytes();
-        byte[] EncryptData = encrypt(key, data);
-        byte[] DecryptData = decrypt(key, EncryptData);
-        String EncryptText = new String(EncryptData, StandardCharsets.UTF_8);
-        String DecryptText = new String(DecryptData, StandardCharsets.UTF_8);
-        // Example of a call to a native method
-        TextView tv = findViewById(R.id.sample_text);
-        tv.setText(stringFromJNI() + '\n' + "EncryptText: " + EncryptText + '\n'
-                   + "DecryptText: " + DecryptText);
+//        byte[] key = randomBytes(16);
+//        byte[] data = "Text__Encryption".getBytes();
+//        byte[] EncryptData = encrypt(key, data);
+//        byte[] DecryptData = decrypt(key, EncryptData);
+//        String EncryptText = new String(EncryptData, StandardCharsets.UTF_8);
+//        String DecryptText = new String(DecryptData, StandardCharsets.UTF_8);
+//        // Example of a call to a native method
+//        TextView tv = findViewById(R.id.sample_text);
+//        tv.setText(stringFromJNI() + '\n' + "EncryptText: " + EncryptText + '\n'
+//                + "DecryptText: " + DecryptText);
+
+        Button button = findViewById(R.id.btnClickMe);
+        button.setOnClickListener((View v) -> { showToast(v);});
+
+
+
+//        int res = initRng();
+//        Log.i("fclient", "Init Rng = " + res);
+//        byte[] v = randomBytes(10);
+
+    }
+
+    public static byte[] StringToHex(String s) {
+
+        byte[] hex;
+        try {
+            hex = Hex.decodeHex(s.toCharArray());
+        }
+        catch (DecoderException ex) {
+            hex = null;
+        }
+        return hex;
+    }
+
+    public void showToast(View v) {
+//        A.
+//        Log.i("fapptag",  "Clicked");
+//        Toast toast = Toast.makeText(MainActivity.this, stringFromJNI(), Toast.LENGTH_SHORT);
+//        toast.show();
+//        B.
+//
+//        byte[] key = StringToHex("1234567812345678");
+//        byte[] enc = encrypt(key, StringToHex("Text__Encryption"));
+//        byte[] dec = decrypt(key, enc);
+//        String s = new String(Hex.encodeHex(dec)).toUpperCase();
+//        Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
+//        C.
+        Intent it = new Intent(MainActivity.this, PinpadActivity.class);
+        startActivityForResult(it, 0);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK || data != null) {
+                String pin = data.getStringExtra("pin");
+                Toast.makeText(MainActivity.this, pin, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     /**
@@ -42,4 +102,5 @@ public class MainActivity extends AppCompatActivity {
     public static native byte[] randomBytes(int no);
     public static native byte[] encrypt(byte[] key, byte[] data);
     public static native byte[] decrypt(byte[] key, byte[] data);
+
 }

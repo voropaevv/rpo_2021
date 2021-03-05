@@ -18,7 +18,7 @@ char *personalization = "fclient-sample-app";
 
 extern "C" JNIEXPORT jstring JNICALL
 Java_ru_iu3_fclient_MainActivity_stringFromJNI(JNIEnv* env, jobject) {
-    std::string hello = "My first project.";
+    std::string hello = "You clicked the button!";
     LOG_INFO("Hello from system log %d", 2021);
     SLOG_INFO("Hello from spdlog {}", 2021);
     return env->NewStringUTF(hello.c_str());
