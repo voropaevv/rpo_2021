@@ -14,7 +14,14 @@ import android.widget.Toast;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.commons.io.IOUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
 
         Button button = findViewById(R.id.btnClickMe);
         button.setOnClickListener((View v) -> { showToast(v);});
-
-
+        Button button2 = findViewById(R.id.btnInternet);
+        button2.setOnClickListener((View v) -> { showToastInternet(v);});
 
 //        int res = initRng();
 //        Log.i("fclient", "Init Rng = " + res);
@@ -80,6 +87,39 @@ public class MainActivity extends AppCompatActivity {
         Intent it = new Intent(MainActivity.this, PinpadActivity.class);
         startActivityForResult(it, 0);
 
+    }
+
+    public void showToastInternet(View view) {
+        TestHttpClient();
+    }
+
+    protected void TestHttpClient()
+    {
+        new Thread(() -> {
+            try {
+                HttpURLConnection uc = (HttpURLConnection) (new URL("https://www.wikipedia.org").openConnection());
+                InputStream inputStream = uc.getInputStream();
+                String html = IOUtils.toString(inputStream);
+                String title = getPageTitle(html);
+                runOnUiThread(() -> {
+                    Toast.makeText(MainActivity.this, title, Toast.LENGTH_SHORT).show();
+                });
+            } catch (Exception ex) {
+                Log.e("fapptag", "Http client fails", ex);
+            }
+        }).start();
+    }
+
+
+    protected String getPageTitle(String html) {
+        Pattern pattern = Pattern.compile( "<title>(.+?)</title>", Pattern.DOTALL);
+        Matcher matcher = pattern.matcher(html);
+        String p;
+        if (matcher.find())
+            p = matcher.group(1);
+        else
+            p = "Not found";
+        return p;
     }
 
     @Override
