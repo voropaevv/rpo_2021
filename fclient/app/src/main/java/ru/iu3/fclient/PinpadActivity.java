@@ -34,7 +34,7 @@ public class PinpadActivity extends Activity {
     }
 
     public void keyClick(View v) {
-        String key = ((TextView)v).getText().toString();
+        String key = ((TextView) v).getText().toString();
         int sz = pin.length();
         if (sz < 4) {
             pin += key;

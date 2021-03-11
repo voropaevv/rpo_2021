@@ -29,7 +29,7 @@ addons: &clang35
     sources:
       - ubuntu-toolchain-r-test
       - llvm-toolchain-precise-3.5
-      
+
 
 addons: &clang10
   apt:
@@ -106,7 +106,7 @@ script:
       -DSPDLOG_BUILD_TESTS=ON \
       -DSPDLOG_BUILD_TESTS_HO=OFF \
       -DSPDLOG_SANITIZE_ADDRESS=$ASAN 
-      
+
   - make VERBOSE=1 -j2
   - ctest -j2 --output-on-failure
   

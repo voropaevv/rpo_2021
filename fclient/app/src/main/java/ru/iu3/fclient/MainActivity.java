@@ -49,9 +49,13 @@ public class MainActivity extends AppCompatActivity {
 //                + "DecryptText: " + DecryptText);
 
         Button button = findViewById(R.id.btnClickMe);
-        button.setOnClickListener((View v) -> { showToast(v);});
+        button.setOnClickListener((View v) -> {
+            showToast(v);
+        });
         Button button2 = findViewById(R.id.btnInternet);
-        button2.setOnClickListener((View v) -> { showToastInternet(v);});
+        button2.setOnClickListener((View v) -> {
+            showToastInternet(v);
+        });
 
 //        int res = initRng();
 //        Log.i("fclient", "Init Rng = " + res);
@@ -64,8 +68,7 @@ public class MainActivity extends AppCompatActivity {
         byte[] hex;
         try {
             hex = Hex.decodeHex(s.toCharArray());
-        }
-        catch (DecoderException ex) {
+        } catch (DecoderException ex) {
             hex = null;
         }
         return hex;
@@ -93,11 +96,10 @@ public class MainActivity extends AppCompatActivity {
         TestHttpClient();
     }
 
-    protected void TestHttpClient()
-    {
+    protected void TestHttpClient() {
         new Thread(() -> {
             try {
-                HttpURLConnection uc = (HttpURLConnection) (new URL("https://www.wikipedia.org").openConnection());
+                HttpURLConnection uc = (HttpURLConnection) (new URL("http://10.0.2.2:8081/api/v1/title").openConnection());
                 InputStream inputStream = uc.getInputStream();
                 String html = IOUtils.toString(inputStream);
                 String title = getPageTitle(html);
@@ -112,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     protected String getPageTitle(String html) {
-        Pattern pattern = Pattern.compile( "<title>(.+?)</title>", Pattern.DOTALL);
+        Pattern pattern = Pattern.compile("<title>(.+?)</title>", Pattern.DOTALL);
         Matcher matcher = pattern.matcher(html);
         String p;
         if (matcher.find())
@@ -138,9 +140,13 @@ public class MainActivity extends AppCompatActivity {
      * which is packaged with this application.
      */
     public native String stringFromJNI();
+
     public static native int initRng();
+
     public static native byte[] randomBytes(int no);
+
     public static native byte[] encrypt(byte[] key, byte[] data);
+
     public static native byte[] decrypt(byte[] key, byte[] data);
 
 }
