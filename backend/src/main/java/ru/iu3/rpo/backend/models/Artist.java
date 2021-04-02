@@ -7,21 +7,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity // таблица в базе
-@Table(name = "countries") //имя это таблицы countries
+@Table(name = "artists") //имя это таблицы artists
 @Access(AccessType.FIELD) // разрешаем доступ к полям класса
-public class Country {
+public class Artist {
 
-    public Country() { }
-    public Country(Long id) { this.id = id; }
+    public Artist() { }
+    public Artist(Long id) { this.id = id; }
 
-    @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
     public long id;
 
     @Column(name = "name", nullable = false, unique = true)
     public String name;
 
+    @Column(name = "century", nullable = false)
+    public String century;
+
+    @ManyToOne
+    @JoinColumn(name="countryid")
+    public Country country;
+
     @JsonIgnore
-    @OneToMany(mappedBy = "country")
-    public List<Artist> artists = new ArrayList<Artist>();
+    @OneToMany
+    public List<Painting> paintings = new ArrayList<Painting>();
 }

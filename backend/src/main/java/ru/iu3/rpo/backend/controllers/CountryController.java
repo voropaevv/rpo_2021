@@ -3,17 +3,16 @@ package ru.iu3.rpo.backend.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import ru.iu3.rpo.backend.models.Artist;
 import ru.iu3.rpo.backend.models.Country;
 import ru.iu3.rpo.backend.repositories.CountryRepository;
 import javax.validation.Valid;
 
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("api/v1")
@@ -21,11 +20,18 @@ public class CountryController {
     @Autowired
     CountryRepository countryRepository;
 
-    @GetMapping("/countries")
+    @GetMapping("/countries/")
     // getAllCountries возвращает список стран, который будет автоматически преобразован в JSON
-    public  List<Country> getAllCountries() {
-        return countryRepository.findAll();
+//    public List<Country> getAllCountries() {
+//        return countryRepository.findAll();
+//    }
+    public ResponseEntity<List<Artist>> getCountryArtists(@PathVariable(value = "id") Long countryId) {
+        Optional<Country> cc = countryRepository.findById(countryId);
+        if (cc.isPresent())
+            return ResponseEntity.ok(cc.get().artists);
+        return ResponseEntity.ok(new ArrayList<Artist>());
     }
+
 
     @PostMapping("/countries")
     public ResponseEntity<Object> createCountry(@Valid @RequestBody Country country) {

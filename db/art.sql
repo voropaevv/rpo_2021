@@ -25,12 +25,12 @@ DROP TABLE IF EXISTS `artists`;
 CREATE TABLE `artists` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
+  `century` int NOT NULL,
   `countryid` int DEFAULT NULL,
-  `age` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `artistcountrykey_idx` (`countryid`),
   CONSTRAINT `artistcountrykey` FOREIGN KEY (`countryid`) REFERENCES `countries` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,6 +39,7 @@ CREATE TABLE `artists` (
 
 LOCK TABLES `artists` WRITE;
 /*!40000 ALTER TABLE `artists` DISABLE KEYS */;
+INSERT INTO `artists` VALUES (9,'Питер Брейгель Старший',16,11),(10,'Ян Вермеер',17,11);
 /*!40000 ALTER TABLE `artists` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -54,7 +55,7 @@ CREATE TABLE `countries` (
   `name` varchar(64) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -63,7 +64,7 @@ CREATE TABLE `countries` (
 
 LOCK TABLES `countries` WRITE;
 /*!40000 ALTER TABLE `countries` DISABLE KEYS */;
-INSERT INTO `countries` VALUES (7,'Голландия');
+INSERT INTO `countries` VALUES (11,'Голландия');
 /*!40000 ALTER TABLE `countries` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -79,7 +80,7 @@ CREATE TABLE `museums` (
   `name` varchar(128) NOT NULL,
   `location` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -88,6 +89,7 @@ CREATE TABLE `museums` (
 
 LOCK TABLES `museums` WRITE;
 /*!40000 ALTER TABLE `museums` DISABLE KEYS */;
+INSERT INTO `museums` VALUES (1,'Венский музей истории искусств','Вена');
 /*!40000 ALTER TABLE `museums` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -120,6 +122,64 @@ LOCK TABLES `paintings` WRITE;
 /*!40000 ALTER TABLE `paintings` DISABLE KEYS */;
 /*!40000 ALTER TABLE `paintings` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `users` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `login` varchar(45) NOT NULL,
+  `password` varchar(64) DEFAULT NULL,
+  `email` varchar(45) NOT NULL,
+  `salt` varchar(64) DEFAULT NULL,
+  `token` varchar(256) DEFAULT NULL,
+  `activity` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `login_UNIQUE` (`login`),
+  UNIQUE KEY `email_UNIQUE` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'admin',NULL,'admin@rpo.iu3.bmstu.ru',NULL,NULL,NULL);
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `usersmuseums`
+--
+
+DROP TABLE IF EXISTS `usersmuseums`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `usersmuseums` (
+  `userid` int NOT NULL,
+  `museumid` int NOT NULL,
+  PRIMARY KEY (`userid`,`museumid`),
+  KEY `usermuseumstomuseums_idx` (`museumid`),
+  CONSTRAINT `usermuseumstomuseums` FOREIGN KEY (`museumid`) REFERENCES `museums` (`id`),
+  CONSTRAINT `usersmuseumstousers` FOREIGN KEY (`userid`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `usersmuseums`
+--
+
+LOCK TABLES `usersmuseums` WRITE;
+/*!40000 ALTER TABLE `usersmuseums` DISABLE KEYS */;
+INSERT INTO `usersmuseums` VALUES (1,1);
+/*!40000 ALTER TABLE `usersmuseums` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -130,4 +190,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-31 20:14:09
+-- Dump completed on 2021-04-02  9:10:20
