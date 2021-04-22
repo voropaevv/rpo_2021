@@ -20,17 +20,17 @@ public class CountryController {
     @Autowired
     CountryRepository countryRepository;
 
-    @GetMapping("/countries/")
+    @GetMapping("/countries")
     // getAllCountries возвращает список стран, который будет автоматически преобразован в JSON
-//    public List<Country> getAllCountries() {
-//        return countryRepository.findAll();
-//    }
-    public ResponseEntity<List<Artist>> getCountryArtists(@PathVariable(value = "id") Long countryId) {
-        Optional<Country> cc = countryRepository.findById(countryId);
-        if (cc.isPresent())
-            return ResponseEntity.ok(cc.get().artists);
-        return ResponseEntity.ok(new ArrayList<Artist>());
+    public List<Country> getAllCountries() {
+        return countryRepository.findAll();
     }
+//    public ResponseEntity<List<Artist>> getCountryArtists(@PathVariable(value = "id") Long countryId) {
+//        Optional<Country> cc = countryRepository.findById(countryId);
+//        if (cc.isPresent())
+//            return ResponseEntity.ok(cc.get().artists);
+//        return ResponseEntity.ok(new ArrayList<Artist>());
+//    }
 
 
     @PostMapping("/countries")
