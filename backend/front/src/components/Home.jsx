@@ -1,4 +1,5 @@
 import React from "react";
+import TextAnimation from 'react-animate-text';
 
 class Home extends React.Component {
 
@@ -8,9 +9,15 @@ class Home extends React.Component {
 
     render() {
         return (
+
             <div className="mt-5">
-                <h2>RPO Art Frontend</h2>
+                <h2>
+                    <TextAnimation animation="type" charInterval="100">
+                        RPO Art Frontend
+                    </TextAnimation>
+                </h2>
             </div>
+
         );
     }
 }
