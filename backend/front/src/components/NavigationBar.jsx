@@ -1,18 +1,22 @@
 import React from "react";
-import { Navbar, Nav, NavDropdown } from "react-bootstrap"
+import { Navbar, Nav } from "react-bootstrap"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {faHome, faUser} from '@fortawesome/fontawesome-free-solid'
 import {Link, withRouter} from "react-router-dom";
 import Utils from "../utils/Utils";
 import BackendService from "../services/BackendService";
+import {connect} from 'react-redux';
+import {userActions} from "../utils/Rdx";
 
 
-// этот класс наследуется от React.Component
 class NavigationBar extends React.Component {
 
     // props - Это параметры которые можно при желании передать через атрибуты элемента
     constructor(props) {
         super(props);
+
+        this.goHome = this.goHome.bind(this)
+        this.logout = this.logout.bind(this)
     }
 
     goHome()
@@ -20,9 +24,17 @@ class NavigationBar extends React.Component {
         this.props.history.push("/home")
     }
 
+    logout() {
+        BackendService.logout().finally( () => {
+            this.props.dispatch(userActions.logout())
+            this.props.history.push('/login')
+
+        })
+    }
+
     // отображает компонент в окне браузера
     render() {
-        let  uname = Utils.getUserName();
+        let uname = Utils.getUserName();
         return (
             <Navbar bg="light" expand="lg">
                 <Navbar.Brand><FontAwesomeIcon icon={faHome}/>{' '}myRPO</Navbar.Brand>
@@ -34,23 +46,20 @@ class NavigationBar extends React.Component {
                         <Nav.Link onLink={() => {this.props.history.push("/home")}}>Yet another home</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
-                <Navbar.Text>{uname}</Navbar.Text>
-                { uname &&
-                    <Nav.Link onClick={this.logout}><FontAwesomeIcon icon={faUser} fixedWidth/>{' '}Logout</Nav.Link>
+                <Navbar.Text>{this.props.user}</Navbar.Text>
+                { this.props.user &&
+                    <Nav.Link onClick={this.logout}><FontAwesomeIcon icon={faUser} fixedWidth/>{' '}Выход</Nav.Link>
                 }
-                { !uname  &&
-                    <Nav.Link as={Link} to="/login"><FontAwesomeIcon icon={faUser} fixedWidth/>{' '}Login</Nav.Link>
+                { !this.props.user  &&
+                    <Nav.Link as={Link} to="/login"><FontAwesomeIcon icon={faUser} fixedWidth/>{' '}Вход</Nav.Link>
                 }
             </Navbar>
         );
     }
-
-    logout() {
-        BackendService.logout().finally( () => {
-            Utils.removeUser();
-            this.goHome();
-        })
-    }
 }
 
-export default withRouter(NavigationBar);
+function mapStateToProps(state) {
+    const {user} = state.authentication;
+    return {user};
+}
+export default withRouter(connect(mapStateToProps)(NavigationBar));

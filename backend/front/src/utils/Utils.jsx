@@ -17,8 +17,13 @@ class Utils {
     getUserName()
     {
         let user = JSON.parse(localStorage.getItem('user'))
-        console.log("user", user)
+        // console.log("user", user)
         return user && user.login;
+    }
+
+    getUser()
+    {
+        return JSON.parse(localStorage.getItem('user'))
     }
 }
 
