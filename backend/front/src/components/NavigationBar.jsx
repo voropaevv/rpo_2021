@@ -1,7 +1,7 @@
 import React from "react";
 import { Navbar, Nav } from "react-bootstrap"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import {faHome, faUser} from '@fortawesome/fontawesome-free-solid'
+import {faBars, faHome, faUser} from '@fortawesome/fontawesome-free-solid'
 import {Link, withRouter} from "react-router-dom";
 import Utils from "../utils/Utils";
 import BackendService from "../services/BackendService";
@@ -34,10 +34,14 @@ class NavigationBar extends React.Component {
 
     // отображает компонент в окне браузера
     render() {
-        let uname = Utils.getUserName();
         return (
             <Navbar bg="light" expand="lg">
-                <Navbar.Brand><FontAwesomeIcon icon={faHome}/>{' '}myRPO</Navbar.Brand>
+                <button type="button"
+                        className="btn btn-outline-secondary mr-2"
+                        onClick={this.props.toggleSideBar}>
+                    <FontAwesomeIcon icon={faBars}/>
+                </button>
+                <Navbar.Brand>myRPO</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
@@ -46,7 +50,7 @@ class NavigationBar extends React.Component {
                         <Nav.Link onLink={() => {this.props.history.push("/home")}}>Yet another home</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
-                <Navbar.Text>{this.props.user}</Navbar.Text>
+                {this.props.user?this.props.user.login:""}
                 { this.props.user &&
                     <Nav.Link onClick={this.logout}><FontAwesomeIcon icon={faUser} fixedWidth/>{' '}Выход</Nav.Link>
                 }

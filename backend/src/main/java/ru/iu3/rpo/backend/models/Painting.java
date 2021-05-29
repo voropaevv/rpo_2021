@@ -18,14 +18,14 @@ public class Painting {
     @Column(name = "name", nullable = false)
     public String name;
 
-    @Column(name = "location")
-    public String location;
+    @Column(name = "year")
+    public String year;
 
     @ManyToOne
     @JoinColumn(name="artistid")
-    public Country artist;
+    public Artist artist;
 
     @ManyToOne
     @JoinColumn(name="museumid")
-    public Country museum;
+    public Museum museum;
 }
