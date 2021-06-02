@@ -3,7 +3,6 @@ import {Link} from "react-router-dom";
 import React from "react";
 import {faGlobe, faImage, faPalette, faUniversity, faUserCircle, faUsers} from "@fortawesome/fontawesome-free-solid";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import Home from "./Home";
 
 class SideBar extends React.Component {
 

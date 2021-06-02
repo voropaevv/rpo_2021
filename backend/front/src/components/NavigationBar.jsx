@@ -45,9 +45,10 @@ class NavigationBar extends React.Component {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link tag={Link} to="/home">Home</Nav.Link>
-                        <Nav.Link onLink={this.goHome}>Another home</Nav.Link>
-                        <Nav.Link onLink={() => {this.props.history.push("/home")}}>Yet another home</Nav.Link>
+                        {/*<Nav.Link tag={Link} to="/home">Home</Nav.Link>*/}
+                        <Nav.Link onClick={this.goHome}>Home</Nav.Link>
+                        <Nav.Link onClick={this.goHome}>Another home</Nav.Link>
+                        <Nav.Link onClick={() => {this.props.history.push("/home")}}>Yet another home</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
                 {this.props.user?this.props.user.login:""}

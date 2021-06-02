@@ -6,12 +6,14 @@ import {alertActions} from "../utils/Rdx"
 import {connect} from "react-redux"
 import {Form} from "react-bootstrap"
 
-class CountryComponent extends Component {
+class ArtistComponent extends Component {
     constructor(props) {
         super(props)
         this.state = {
             id: this.props.match.params.id,
             name: '',
+            century: '',
+            country: '',
             hidden: false,
         }
 
@@ -28,20 +30,27 @@ class CountryComponent extends Component {
         event.stopPropagation();
         let err = null;
         if (!this.state.name) {
-            err = "Название страны должно быть указано"
+            err = "Имя художника должно быть указано"
+        }
+        if (!this.state.century) {
+            err = "Век художника должен быть указан"
+        }
+        if (!this.state.country) {
+            err = "Страна художника должна быть указана"
         }
         if (err) {
             this.props.dispatch(alertActions.error(err))
         }
-        let country = {id: this.state.id, name: this.state.name}
-        if (parseInt(country.id) === -1) {
-            BackendService.createCountry(country)
-                .then(() => this.props.history.push('/countries'))
+        let artist = {id: this.state.id, name: this.state.name,
+            century: this.state.century, country: this.state.country.name}
+        if (parseInt(artist.id) === -1) {
+            BackendService.createArtist(artist)
+                .then(() => this.props.history.push('/artists'))
                 .catch(() => {
                 })
         } else {
-            BackendService.updateCountry(country)
-                .then(() => this.props.history.push('/countries'))
+            BackendService.updateArtist(artist)
+                .then(() => this.props.history.push('/artists'))
                 .catch(() => {
                 })
         }
@@ -49,10 +58,12 @@ class CountryComponent extends Component {
 
     componentDidMount() {
         if (parseInt(this.state.id) !== -1) {
-            BackendService.retrieveCountry(this.state.id)
+            BackendService.retrieveArtist(this.state.id)
                 .then((resp) => {
                     this.setState({
                         name: resp.data.name,
+                        century: resp.data.century,
+                        country: resp.data.country
                     })
                 })
                 .catch(() => this.setState({hidden: true}))
@@ -65,21 +76,39 @@ class CountryComponent extends Component {
         return (
             <div className="m-4">
                 <div className=" row my-2 mr-0">
-                    <h3>Страна</h3>
+                    <h3>Художник</h3>
                     <button className="btn btn-outline-secondary ml-auto"
-                            onClick={() => this.props.history.push('/countries')}
+                            onClick={() => this.props.history.push('/artists')}
                     ><FontAwesomeIcon
                         icon={faChevronLeft}/>{' '}Назад</button>
                 </div>
                 <Form onSubmit={this.onSubmit}>
                     <Form.Group>
-                        <Form.Label>Название</Form.Label>
+                        <Form.Label>Имя</Form.Label>
                         <Form. Control
                                type="text"
-                               placeholder="Введите название страны"
+                               placeholder="Введите имя художника"
                                onChange={this.handleChange}
                                value={this.state.name}
                                name="name"
+                               autoComplete="off"
+                        />
+                        <Form.Label>Век</Form.Label>
+                        <Form. Control
+                               type="text"
+                               placeholder="Введите век художника"
+                               onChange={this.handleChange}
+                               value={this.state.century}
+                               name="century"
+                               autoComplete="off"
+                        />
+                        <Form.Label>Страна</Form.Label>
+                        <Form. Control
+                               type="text"
+                               placeholder="Введите Страну художника"
+                               onChange={this.handleChange}
+                               value={this.state.country.name}
+                               name="country"
                                autoComplete="off"
                         />
                     </Form.Group>
@@ -94,4 +123,4 @@ class CountryComponent extends Component {
     }
 }
 
-export default connect()(CountryComponent);
+export default connect()(ArtistComponent);

@@ -15,6 +15,9 @@ import PaintingListComponent from "./components/PaintingListComponent";
 import MuseumListComponent from "./components/MuseumListComponent";
 import UserListComponent from "./components/UserListComponent";
 import MyAccountComponent from "./components/MyAccountComponent";
+import ArtistComponent from "./components/ArtistComponent";
+import PaintingComponent from "./components/PaintingComponent";
+import MuseumComponent from "./components/MuseumComponent";
 
 
 const AuthRoute = props => {
@@ -41,6 +44,9 @@ function App(props) {
                      <Switch>
                          <AuthRoute path="/countries/:id" component={CountryComponent}/>
                          <AuthRoute path="/users/:id" component={MyAccountComponent}/>
+                         <AuthRoute path="/artists/:id" component={ArtistComponent}/>
+                         <AuthRoute path="/paintings/:id" component={PaintingComponent}/>
+                         <AuthRoute path="/museums/:id" component={MuseumComponent}/>
                          <AuthRoute path="/countries" exact component={CountryListComponent}/>
                          <AuthRoute path="/artists" exact component={ArtistListComponent}/>
                          <AuthRoute path="/paintings" exact component={PaintingListComponent}/>

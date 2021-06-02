@@ -89,7 +89,6 @@ class MyAccountComponent extends Component {
                     <div className="row my-2 mr-0">
                         <h3>Мой аккаунт</h3>
                         <button className="btn btn-outline-secondary ml-auto"
-                                // onClick={() => this.props.history.goBack()}
                                 onClick={() => this.props.history.push('/users')}>
                             <FontAwesomeIcon icon={faChevronLeft}/>{' '}Назад
                         </button>
@@ -110,26 +109,26 @@ class MyAccountComponent extends Component {
                                         <Field className="form-control" type="text" name="login" disabled/>
                                     </fieldset>
                                     <fieldset className="form-group" disabled >
-                                        <label>EMail</label>
+                                        <label>Почта</label>
                                         <Field className="form-control" type="text" name="email" validate="validateEmail"/>
                                     </fieldset>
                                     {
                                         this.state.show_pwd &&
-                                        <fieldset className="form-group" disabled >
+                                        <fieldset className="form-group" >
                                             <label>Введите пароль</label>
                                             <Field className="form-control" type="password" name="pwd"/>
                                         </fieldset>
                                     }
                                     {
                                         this.state.show_pwd &&
-                                        <fieldset className="form-group" disabled >
+                                        <fieldset className="form-group" >
                                             <label>Повторите пароль</label>
                                             <Field className="form-control" type="password" name="pwd2"/>
                                         </fieldset>
                                     }
                                     {
                                         !this.state.show_pwd &&
-                                        <fieldset className="form-group" disabled >
+                                        <fieldset className="form-group" >
                                             <button className="btn btn-outline-secondary"
                                                     onClick={this.onSetPasswordClick}>Изменить пароль</button>
                                         </fieldset>
