@@ -2,7 +2,7 @@ import {Component} from "react";
 import Utils from "../utils/Utils";
 import BackendService from "../services/BackendService";
 import {alertActions} from "../utils/Rdx";
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faChevronLeft} from "@fortawesome/fontawesome-free-solid";
 import {connect} from "react-redux";
